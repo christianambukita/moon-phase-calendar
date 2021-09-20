@@ -30,9 +30,11 @@ export default function MainScene(){
                 <img src={treeLineImg} alt="tree-line"/>
             </div>
             {
+            /*
             <div className="slidecontainer">
                 <input type="range" min="0" max="1" step="0.01" value={sliderValue} className="slider" id="myRange" onChange={(e)=>setSliderValue(e.target.value)}/>
             </div>
+            */
             }
       </div>
       <div className = "scene-seam-patch"></div>
