@@ -1,4 +1,4 @@
-export default function getAliasingPatchStyle({width, height, ["--translateX"]: translateX, ["--translateY"]: translateY, borderRadius}){
+export default function getAliasingPatchStyle({width, height, "--translateX": translateX, "--translateY": translateY, borderRadius}){
     
     if(borderRadius) //always except first and third quarter moon phase
         return { 

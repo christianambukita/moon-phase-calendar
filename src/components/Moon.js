@@ -6,7 +6,6 @@ import getAliasingPatchStyle from '../utils/getAliasingPatchStyle';
 
 
 function Moon({phase, moonSize, scrollTranslate}){
-    console.log(moonSize)
     let [shadowStyle, setShadowStyle] = useState({
         width: 0,
         height: 0,
