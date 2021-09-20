@@ -1,6 +1,6 @@
 import treeLineImg from '../img/tree-line.png';
 import Moon from './Moon';
-import { useState } from 'react';
+//import { useState } from 'react';
 import calculatePhase from "../utils/phaseCalculator"
 import useWindowSize from "../utils/useWindowSize";
 import useScrollHeight from '../utils/useScrollHeight';
@@ -8,7 +8,7 @@ import useScrollHeight from '../utils/useScrollHeight';
 
 export default function MainScene(){
     let windowSize = useWindowSize();
-    let [sliderValue, setSliderValue] = useState(0.5);
+    //let [sliderValue, setSliderValue] = useState(0.5);
     let scrollPosition = useScrollHeight()
 
     function getMoonSize({width, height}){
