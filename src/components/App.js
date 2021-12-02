@@ -1,3 +1,4 @@
+import { useEffect } from 'react/cjs/react.development';
 import '../css/App.css';
 import Calendar from './Calendar';
 import MainScene from './MainScene';
@@ -5,7 +6,11 @@ import MainScene from './MainScene';
 
 
 function App() {
-  
+
+  useEffect(() => {
+    document.title = "Moon phase callendar"
+  },[])
+
   return (
     <div className="App" id="App">
       <MainScene />

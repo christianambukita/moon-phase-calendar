@@ -11,41 +11,23 @@
     flex-direction: column;
     background: linear-gradient(
       0deg,
-      rgba(28, 0, 73, 0.5) 0%,
-      rgba(0, 1, 73, 0.3) 15%,
-      rgba(0,0,0) 30%);
+      hsla(248, 100%, 14%, 0.5) 0%,
+      hsla(239, 100%, 14%, 0.3) 15%,
+      hsl(0, 0%, 0%) 30%);
     width: 100%;
     
     height: 100vh;
   }
   
 
-  .stars-bg{
-    content:"";
-    background-image: var(--stars-bg);
-    width: 100%;
-    height: 100%;
-    position:absolute;
-    opacity: 0.35;
-  }
-  
-  .tree-line{
-    width:100%;
-    position:absolute;
-    bottom:-0px;
-  }
-  
-  .tree-line img{
-    display:block;
-    width:1920px;
-    min-width: 100%;
-  }
+
   
   .moon{
     position:relative;
     border-radius: 50%;
     display: flex;
     overflow:hidden;
+    transition: translate ease-in-out 0.2s;
   }
   
   .moon-shadow{
