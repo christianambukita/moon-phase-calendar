@@ -20,6 +20,7 @@ export default function MainScene(){
         if(scrollPosition) return `translateY(${scrollPosition/ratio}px)`
         return ''
     }
+
     return(
         <>
             <div className="scene-container">
