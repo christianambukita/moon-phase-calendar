@@ -25,7 +25,7 @@ function Moon({phase, moonSize, scrollTranslate}){
             console.warn(`ERROR(${err.code}): ${err.message}`);
           }
 
-          navigator.geolocation.getCurrentPosition( (pos) => setState(-pos.coords.latitude+90), error, options);
+          //navigator.geolocation.getCurrentPosition( (pos) => setState(-pos.coords.latitude+90), error, options);
     }
 
     useEffect(()=>{
