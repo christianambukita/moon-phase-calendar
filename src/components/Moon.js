@@ -11,26 +11,27 @@ function Moon({phase, moonSize, scrollTranslate}){
         height: 0,
     })
     let [aliPatchStyle, setAliPatch] = useState()
-    let [rotationAngle, setAngle] = useState(0);
+    //let [rotationAngle, setAngle] = useState(0);
+    const rotationAngle = 0;
 
 
-    function getLatitude(setState){
-        const options = {
-            enableHighAccuracy: false,
-            timeout: 5000,
-            maximumAge: 0
-          };
+    // function getLatitude(setState){
+    //     const options = {
+    //         enableHighAccuracy: false,
+    //         timeout: 5000,
+    //         maximumAge: 0
+    //       };
           
-          function error(err) {
-            console.warn(`ERROR(${err.code}): ${err.message}`);
-          }
+    //       function error(err) {
+    //         console.warn(`ERROR(${err.code}): ${err.message}`);
+    //       }
 
-          //navigator.geolocation.getCurrentPosition( (pos) => setState(-pos.coords.latitude+90), error, options);
-    }
+    //       navigator.geolocation.getCurrentPosition( (pos) => setState(-pos.coords.latitude+90), error, options);
+    // }
 
     useEffect(()=>{
         if(moonSize && phase){
-        getLatitude(setAngle);
+        //getLatitude(setAngle);
         setShadowStyle(getShadowStyle(phase, moonSize));
         }
     }, [moonSize, phase])
