@@ -11,3 +11,5 @@ One night looking at moon I wondered how would I create moon with its shadow usi
 ## Challange
 
 Definitely the biggest challange was figuring out how the shadow is projected on the moon and then getting the equation to calculate its radius and position. Key to resolving this problem was an observation that shadow no matter how small or big always intersets whith moon radius exacly in the same points (if we woudnt take moon rotation into consideration it would be north and south pole).
+
+**[view live version](https://moon-phase-calendar.netlify.app/)**
