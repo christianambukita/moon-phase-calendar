@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import '../css/App.css';
 import Calendar from './Calendar';
 import MainScene from './MainScene';
