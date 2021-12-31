@@ -7,10 +7,6 @@ import MainScene from './MainScene';
 
 function App() {
 
-  useEffect(() => {
-    document.title = "Moon phase callendar"
-  },[])
-
   return (
     <div className="App" id="App">
       <MainScene />
