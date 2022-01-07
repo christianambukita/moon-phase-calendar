@@ -1,57 +1,52 @@
 :root {
-    --stars-bg: url("../img/stars.jpeg");
-  }
+	--stars-bg: url('../img/stars.jpeg');
+}
 
-.scene-container{
-    position:relative;
-    overflow: hidden;
-    display:flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    background: linear-gradient(
-      0deg,
-      hsla(248, 100%, 14%, 0.5) 0%,
-      hsla(239, 100%, 14%, 0.3) 15%,
-      hsl(0, 0%, 0%) 30%);
-    width: 100%;
-    
-    height: 100vh;
-  }
-  
+.scene-container {
+	position: relative;
+	overflow: hidden;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	background: linear-gradient(
+		0deg,
+		hsla(248, 100%, 14%, 0.5) 0%,
+		hsla(239, 100%, 14%, 0.3) 15%,
+		hsl(0, 0%, 0%) 30%
+	);
+	width: 100%;
+	height: 100vh;
+}
 
+.moon {
+	position: relative;
+	border-radius: 50%;
+	display: flex;
+	overflow: hidden;
+	transition: translate ease-in-out 0.2s;
+}
 
-  
-  .moon{
-    position:relative;
-    border-radius: 50%;
-    display: flex;
-    overflow:hidden;
-    transition: translate ease-in-out 0.2s;
-  }
-  
-  .moon-shadow{
-    position:absolute;
-  }
-  
+.moon-shadow {
+	position: absolute;
+}
 
-  .slidecontainer{
-    position:absolute;
-    top: 10px;
-    opacity: 0.5;
-    z-index: 100;
-  }
+.slidecontainer {
+	position: absolute;
+	top: 10px;
+	opacity: 0.5;
+	z-index: 100;
+}
 
-  .scene-seam-patch{
-    position: absolute;
-    top: 99vh;
-    width: 100%;
-    height: 2vh;
-    background: black;
-  }
+.scene-seam-patch {
+	position: absolute;
+	top: 99vh;
+	width: 100%;
+	height: 2vh;
+	background: black;
+}
 
-  .shadow-aliasing-patch{
-    position:absolute;
-    border: 2px solid;
-  }
-
+.shadow-aliasing-patch {
+	position: absolute;
+	border: 2px solid;
+}
