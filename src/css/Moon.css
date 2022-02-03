@@ -50,3 +50,8 @@
 	position: absolute;
 	border: 2px solid;
 }
+
+/* .moon-shadow,
+.shadow-aliasing-patch{
+	transition: all 1s;
+} */

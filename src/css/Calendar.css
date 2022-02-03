@@ -20,7 +20,6 @@
 	flex-direction: column;
 	width: 800px;
 	min-width: 260px;
-	height: 100%;
 }
 
 .month-header {
@@ -59,7 +58,7 @@
 
 .calendar-container {
 	color: var(--font-color);
-	height: 100vh;
+	min-height: 100vh;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -68,9 +67,10 @@
 }
 
 .calendar-entries {
+	display: grid;
+	grid-template-columns: repeat(7, 1fr);
+	grid-template-rows: repeat(auto-fill, fit-contanet);
 	width: 100%;
-	display: flex;
-	flex-wrap: wrap;
 }
 
 h1 {
@@ -84,13 +84,19 @@ h1 {
 @media (max-width: 800px) {
 	.calendar {
 		width: 100%;
+		padding: 10px;
 	}
 }
 
-@media (max-width: 690px) {
+@media (max-width: 730px) {
 	.entry-details {
 		align-items: flex-start !important;
 		padding-left: 2px !important;
+	}
+	.entry-details :first-child,
+	.entry-details :last-child {
+		display: flex;
+		flex-direction: column;
 	}
 }
 
@@ -107,28 +113,15 @@ h1 {
 	.date-info {
 		display: flex !important;
 	}
-
-	.calendar-entry:hover {
-		background: rgba(222, 222, 222, 0.1);
-		border-color: var(--entry-focus-border-color);
-	}
-	.today {
-		border-color: var(--entry-border-color) !important;
-	}
-	.focus {
-		border-color: var(--entry-focus-border-color) !important;
-	}
 }
 
 .calendar-entry {
 	border: 1px groove var(--entry-border-color);
 	border-radius: 4px;
-	flex: 0 1 14%;
 
-	display: flex;
-	justify-content: space-around;
-	align-items: center;
-	flex-direction: column;
+	display: grid;
+	grid-template-columns: 1fr;
+	grid-template-rows: auto 1fr;
 	padding: 5px 0;
 }
 
@@ -136,8 +129,15 @@ h1 {
 	font-size: 0.7em;
 }
 
+.calendar-entry:hover {
+	background: rgba(222, 222, 222, 0.1);
+	border-color: var(--entry-focus-border-color);
+}
 .today {
-	border-color: rgb(223, 223, 223);
+	border: 2px solid var(--entry-focus-border-color) !important;
+}
+.focus {
+	box-shadow: inset 0px 0px 5px 1px var(--entry-focus-border-color);
 }
 
 .empty {
@@ -145,11 +145,10 @@ h1 {
 }
 
 .day-label {
-	flex: 0 1 12.5%;
-
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	height: 2em;
 }
 
 .flex-center {
@@ -165,10 +164,19 @@ h1 {
 	margin-bottom: 5px;
 }
 
+.entry-top {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	width: 100%;
+	margin-bottom: 5px;
+}
+
 .entry-details {
-	display: inherit;
-	justify-content: inherit;
-	align-items: inherit;
+	padding-inline: 4px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	flex-direction: column;
 }
 

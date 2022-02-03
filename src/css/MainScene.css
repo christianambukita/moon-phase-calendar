@@ -25,7 +25,7 @@
 	z-index: 10;
 	color: hsla(0, 0%, 100%, 0.69);
 	font-weight: 400;
-	font-size: 4em;
+	font-size: 3em;
 	letter-spacing: 0.1em;
 	transition: opacity ease-in-out 0.2s;
 }
@@ -34,18 +34,27 @@
 	opacity: 0;
 }
 
-@media (max-width: 705px) {
+@media (max-width: 550px) {
 	.scene-container h1 {
-		font-size: 3em;
+		font-size: 2.5em;
 	}
 }
-@media (max-width: 535px) {
+@media (max-width: 460px) {
 	.scene-container h1 {
 		font-size: 2em;
 	}
 }
 @media (max-width: 365px) {
 	.scene-container h1 {
-		font-size: 1.5em;
+		font-size: 1.6em;
 	}
+}
+
+h1 {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+}
+h1 :first-child {
+	font-size: 2em;
 }
