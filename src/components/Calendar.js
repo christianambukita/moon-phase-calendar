@@ -4,6 +4,7 @@ import calculatePhase from '../utils/phaseCalculator';
 import Moon from './Moon';
 import useWindowSize from '../utils/useWindowSize';
 import { getPhaseName } from '../utils/getPhaseName';
+import getMonthArray from '../utils/getMonthArray';
 
 const MONTH_NAMES = [
 	'January',
@@ -29,82 +30,100 @@ function roundWrap(number, decimalPrecision) {
 	return Math.floor(number * multiplier) / multiplier;
 }
 
-function getMonthArray(year, month) {
-	let monthArray = [new Date(year, month, 1)];
-	let firstDay = monthArray[0].getDay();
-	while (1) {
-		let day = new Date(year, month, monthArray.length + 1);
-		let condition = day.getMonth() === monthArray[0].getMonth();
-		if (!condition || monthArray.length > 31) break;
-		monthArray.push(day);
-	}
-	if (firstDay !== 1) {
-		for (let i = 1; i < firstDay; i++) {
-			monthArray.unshift(0);
-		}
-	}
-	return monthArray;
-}
-
 function parsePhaseName(phase) {
 	let phaseName = getPhaseName(phase).split(' ');
 	return phaseName.map((w, i) => <span key={i}>{w}</span>);
 }
 
-export default function Calendar({ setDisplay }) {
+function getExtraDaysIndexes(mArray) {
+	const prev = mArray.filter((date) => date === undefined).map((x, i) => i);
+	const nextDaysCount = 7 - (mArray.length % 7);
+	const next = new Array(nextDaysCount).fill().map((x, i) => i + mArray.length);
+	return [prev, next];
+}
+
+function getCalendarArray(mArray, month, year) {
+	let [prevDays, nextDays] = getExtraDaysIndexes(mArray);
+	const actMonth = mArray.filter((day) => day);
+	const prevMonth = getMonthArray(year, month - 1).filter((day) => day);
+	const nextMonth = getMonthArray(year, month + 1).filter((day) => day);
+	prevDays = prevDays.map(
+		(dayIndx) => prevMonth[prevMonth.length - prevDays.length + dayIndx]
+	);
+	nextDays = nextDays.map((x, i) => nextMonth[i]);
+	return [...prevDays, ...actMonth, ...nextDays];
+}
+
+export default function Calendar({
+	mArray,
+	getYear,
+	setDate,
+	getMonth,
+	dayIterator,
+	caleldarMonth,
+	setCalMonth,
+	getPhase,
+}) {
 	const actPhase = calculatePhase(new Date());
 	const calendarRef = useRef(null);
-	const [refPhase, setRefPhase] = useState(actPhase);
-	const [month, setMonth] = useState(null);
-	const [year, setYear] = useState(null);
-	const [mArray, setMArray] = useState([]);
+	const initYear = getYear();
+	const [calendarArray, setCalArray] = useState(
+		getCalendarArray(mArray, caleldarMonth, initYear)
+	);
+	const [extraDays, setExtraDays] = useState([
+		...getExtraDaysIndexes(mArray)[0],
+		...getExtraDaysIndexes(mArray)[1],
+	]);
 
 	let size = useWindowSize();
 
-	function handleDatePick(phase, day) {
-		let month = mArray[7].getMonth();
-		setDisplay({ day, month, phase });
-		setRefPhase(phase);
+	function handleDatePick(dayIndex) {
+		if (!extraDays.includes(dayIndex)) setDate(dayIndex, caleldarMonth);
 	}
 
-	function isToday(phase) {
-		let isEqual = phase === actPhase;
-		return isEqual ? ' today' : '';
+	function incrementMonth(increment) {
+		const newMonth = caleldarMonth + (increment ? 1 : -1);
+
+		setCalMonth(newMonth);
 	}
 
-	function isFocus(phase) {
-		return phase === refPhase ? ' focus' : '';
+	function getCalendarStyle(index, phase) {
+		const isToday = phase === actPhase ? ' today' : '';
+
+		const sameIndex = index === dayIterator;
+		const sameMonth = caleldarMonth === getMonth();
+		const isFocus = sameIndex && sameMonth ? ' focus' : '';
+
+		const isExtra = extraDays.includes(index) ? ' extra' : '';
+
+		return isToday + isFocus + isExtra;
 	}
 
 	useEffect(() => {
-		let newDate = new Date();
-		let newMonth = newDate.getMonth();
-		let newYear = newDate.getFullYear();
-		setMonth(newMonth);
-		setYear(newYear);
-		setMArray(getMonthArray(newYear, newMonth));
-	}, []);
+		const newMonthArray = getMonthArray(initYear, caleldarMonth);
+		setCalArray(getCalendarArray(newMonthArray, caleldarMonth, initYear));
+		const _extraDays = getExtraDaysIndexes(newMonthArray);
+		setExtraDays([..._extraDays[0], ..._extraDays[1]]);
 
-	useEffect(() => {
-		if (month !== null && year !== null) setMArray(getMonthArray(year, month));
-	}, [month, year]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [caleldarMonth]);
 
 	return (
 		<div ref={calendarRef} className='calendar-container'>
 			<div className='calendar'>
 				<div className='header'>
-					<h2>{mArray.length && mArray[7].getFullYear()}</h2>
+					<h2>{getYear(calendarArray)}</h2>
 				</div>
 				<div className='month-header'>
 					<div
 						className='month-button left-btn'
-						onClick={() => setMonth(month - 1)}>
+						onClick={() => incrementMonth(false)}>
 						&#10094;
 					</div>
-					<h2>{mArray.length && MONTH_NAMES[mArray[7].getMonth()]}</h2>
+					<h2>{MONTH_NAMES[getMonth(calendarArray)]}</h2>
 					<div
 						className='month-button right-btn'
-						onClick={() => setMonth(month + 1)}>
+						onClick={() => incrementMonth(true)}>
 						&#10095;
 					</div>
 				</div>
@@ -114,14 +133,14 @@ export default function Calendar({ setDisplay }) {
 							{day}
 						</div>
 					))}
-					{mArray.map((date, index) => {
+					{calendarArray.map((date, index) => {
 						if (date) {
 							let phase = calculatePhase(date);
 							return (
 								<div
-									className={'calendar-entry' + isToday(phase) + isFocus(phase)}
+									className={'calendar-entry' + getCalendarStyle(index, phase)}
 									key={index}
-									onClick={() => handleDatePick(phase, date.getDate())}>
+									onClick={() => handleDatePick(index)}>
 									<div className='entry-top'>
 										<span className='entry-date'>{date.getDate()}</span>
 										<Moon phase={phase} moonSize={getMoonSize(size)} />
@@ -146,10 +165,11 @@ export default function Calendar({ setDisplay }) {
 					})}
 				</div>
 				<div className='date-info'>
-					<span className='phase-name'>{getPhaseName(refPhase)}</span>
+					<span className='phase-name'>{getPhaseName(getPhase())}</span>
 					<span className='phase-name'>Moon age: </span>
 					<span className='phase-name'>
-						{roundWrap(refPhase * 29.5, 1)} days ({roundWrap(refPhase * 100, 1)}
+						{roundWrap(getPhase() * 29.5, 1)} days (
+						{roundWrap(getPhase() * 100, 1)}
 						%)
 					</span>
 				</div>

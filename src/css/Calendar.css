@@ -1,10 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap');
-
 :root {
-	--font-color: grey;
+	--font-color: hsl(0, 0%, 70%);
 	--entry-border-color: rgba(128, 128, 128, 0.45);
 	--entry-focus-border-color: rgb(222, 222, 222);
-	font-family: 'Montserrat', sans-serif;
+	--entry-extra-color: hsla(0, 0%, 0%, 0.8);
 }
 
 .calendar-header {
@@ -66,53 +64,16 @@
 	width: 100%;
 }
 
+h2 {
+	font-size: 2.5em;
+	margin-block: 0.4em;
+}
 .calendar-entries {
 	display: grid;
 	grid-template-columns: repeat(7, 1fr);
 	grid-template-rows: repeat(auto-fill, fit-contanet);
+	gap: 8px;
 	width: 100%;
-}
-
-h1 {
-	margin: 0.5em;
-}
-
-.header > h1 {
-	margin: 1em 0 0;
-}
-
-@media (max-width: 800px) {
-	.calendar {
-		width: 100%;
-		padding: 10px;
-	}
-}
-
-@media (max-width: 730px) {
-	.entry-details {
-		align-items: flex-start !important;
-		padding-left: 2px !important;
-	}
-	.entry-details :first-child,
-	.entry-details :last-child {
-		display: flex;
-		flex-direction: column;
-	}
-}
-
-@media (max-width: 460px) {
-	h1 {
-		font-size: 1.4em;
-	}
-	.left-btn {
-		left: 10%;
-	}
-	.right-btn {
-		right: 10%;
-	}
-	.date-info {
-		display: flex !important;
-	}
 }
 
 .calendar-entry {
@@ -138,6 +99,20 @@ h1 {
 }
 .focus {
 	box-shadow: inset 0px 0px 5px 1px var(--entry-focus-border-color);
+}
+.extra {
+	overflow: hidden;
+	position: relative;
+}
+.extra::after {
+	content: '';
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background: var(--entry-extra-color);
+}
+.extra:hover:after {
+	opacity: 0;
 }
 
 .empty {
@@ -192,4 +167,47 @@ h1 {
 
 .date-info > span {
 	margin: 2px 0;
+}
+
+@media (max-width: 800px) {
+	.calendar {
+		width: 100%;
+		padding: 10px;
+	}
+	h2 {
+		font-size: 2em;
+	}
+	.calendar-entries {
+		gap: 0px;
+	}
+	.today {
+		border: 1px solid var(--entry-focus-border-color) !important;
+	}
+}
+
+@media (max-width: 730px) {
+	.entry-details {
+		align-items: flex-start !important;
+		padding-left: 2px !important;
+	}
+	.entry-details :first-child,
+	.entry-details :last-child {
+		display: flex;
+		flex-direction: column;
+	}
+}
+
+@media (max-width: 460px) {
+	h2 {
+		font-size: 1.4em;
+	}
+	.left-btn {
+		left: 10%;
+	}
+	.right-btn {
+		right: 10%;
+	}
+	.date-info {
+		display: flex !important;
+	}
 }

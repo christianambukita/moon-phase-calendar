@@ -1,28 +1,25 @@
-import treeLineImg from '../img/tree-line.png';
+import treeLineImg from '../img/tree-line-trim.png';
 import Moon from './Moon';
-//import { useState } from 'react';
-import calculatePhase from '../utils/phaseCalculator';
 import useWindowSize from '../utils/useWindowSize';
 import useScrollHeight from '../utils/useScrollHeight';
 import '../css/MainScene.css';
 import { getPhaseName } from '../utils/getPhaseName';
-import { useState, useEffect } from 'react';
+import arrowImg from '../img/arrow.svg';
 
-function parseDate(display) {
+function parseDate(day, month) {
 	const addZero = (num) => (num < 10 ? `0${num}` : `${num}`);
-	return `${addZero(display.day)}.${addZero(display.month)}`;
+	return `${addZero(day)}.${addZero(month + 1)}`;
 }
 
-export default function MainScene({ displayData }) {
+export default function MainScene({
+	getDate,
+	getMonth,
+	getPhase,
+	incrementDay,
+}) {
 	let windowSize = useWindowSize();
 	let scrollPosition = useScrollHeight();
-	let initialDate = new Date();
 
-	const [display, setDisplay] = useState({
-		phase: calculatePhase(initialDate),
-		day: initialDate.getDate(),
-		month: initialDate.getMonth(),
-	});
 	function getMoonSize({ width, height }) {
 		return Math.floor(width > height ? height * 0.5 : width * 0.5);
 	}
@@ -32,30 +29,44 @@ export default function MainScene({ displayData }) {
 		return '';
 	}
 
-	useEffect(() => {
-		if (displayData) setDisplay(displayData);
-	}, [displayData]);
+	function isVisible() {
+		return scrollPosition ? 'opacity-0' : '';
+	}
 
 	return (
 		<>
 			<div className='scene-container'>
 				{
-					<h1 className={scrollPosition ? 'opacity-0' : ''}>
-						<span>{parseDate(display)}</span>
-						<span>{getPhaseName(display.phase)}</span>
+					<h1 className={isVisible()}>
+						<span>{parseDate(getDate(), getMonth())}</span>
+						<span>{getPhaseName(getPhase())}</span>
 					</h1>
 				}
 				<div
 					className='stars-bg'
 					style={{ transform: `${getTranslateY(scrollPosition, 5)}` }}></div>
-				<Moon
-					phase={display.phase}
-					moonSize={getMoonSize(windowSize)}
-					scrollTranslate={getTranslateY(
-						scrollPosition,
-						getMoonSize(windowSize) / 100
-					)}
-				/>
+				<div className='moon-container'>
+					<img
+						src={arrowImg}
+						className={`arrow ${isVisible()}`}
+						alt='arrow-left'
+						onClick={() => incrementDay(false)}
+					/>
+					<Moon
+						phase={getPhase()}
+						moonSize={getMoonSize(windowSize)}
+						scrollTranslate={getTranslateY(
+							scrollPosition,
+							getMoonSize(windowSize) / 100
+						)}
+					/>
+					<img
+						src={arrowImg}
+						className={`arrow a-right ${isVisible()}`}
+						alt='arrow-left'
+						onClick={() => incrementDay(true)}
+					/>
+				</div>
 
 				<div className='tree-line'>
 					<img src={treeLineImg} alt='tree-line' />
